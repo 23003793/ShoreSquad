@@ -3,43 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="ShoreSquad - Rally your crew for beach cleanups">
-    <title>ShoreSquad - Beach Cleanup Community</title>
+    <meta name="description" content="ShoreSquad - Rally your crew for beach cleanups">    <title>ShoreSquad - Beach Cleanup Community</title>
     <link rel="stylesheet" href="css/styles.css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
 </head>
-<body>
-    <header>
+<body>    <header>
         <nav class="main-nav">
             <div class="logo">ShoreSquad</div>
             <ul class="nav-links">
-                <li><a href="#map">Find Cleanups</a></li>
-                <li><a href="#weather">Weather</a></li>
-                <li><a href="#community">Community</a></li>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#events">Events</a></li>
+                <li><a href="#map">Maps</a></li>
+                <li><a href="#my-crew">My Crew</a></li>
             </ul>
         </nav>
-    </header>
-
-    <main>
+    </header>    <main>
         <section class="hero">
             <h1>Join the Wave of Change</h1>
             <p>Rally your crew, track weather, and make our beaches cleaner – together!</p>
             <button class="cta-button">Join a Cleanup</button>
         </section>
 
-        <section id="map" class="map-section">
+        <section id="events" class="events-section">
+            <h2>Upcoming Cleanups</h2>
+            <div class="cleanup-grid">
+                <div class="cleanup-card">
+                    <div class="cleanup-date">June 5, 2025</div>
+                    <h3>Sunrise Beach Cleanup</h3>
+                    <p class="location">Sunrise Beach</p>
+                    <p class="time">7:00 AM - 10:00 AM</p>
+                    <p class="participants">12 people attending</p>
+                    <button class="join-button">Join Event</button>
+                </div>
+                <div class="cleanup-card">
+                    <div class="cleanup-date">June 8, 2025</div>
+                    <h3>Ocean Drive Revival</h3>
+                    <p class="location">Ocean Drive Beach</p>
+                    <p class="time">8:30 AM - 11:30 AM</p>
+                    <p class="participants">8 people attending</p>
+                    <button class="join-button">Join Event</button>
+                </div>
+                <div class="cleanup-card">
+                    <div class="cleanup-date">June 15, 2025</div>
+                    <h3>Bay Area Cleanup</h3>
+                    <p class="location">Crystal Bay</p>
+                    <p class="time">9:00 AM - 12:00 PM</p>
+                    <p class="participants">15 people attending</p>
+                    <button class="join-button">Join Event</button>
+                </div>
+            </div>
+        </section>        <section id="map" class="map-section">
             <h2>Beach Cleanup Map</h2>
-            <div id="cleanup-map"></div>
+            <div class="map-container">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.6530337556097!2d103.95557399999999!3d1.381497!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMcKwMjInNTMuNCJOIDEwM8KwNTcnMjAuMSJF!5e0!3m2!1sen!2s!4v1638344922284!&markers=color:red%7Clabel:Next+Cleanup%7C1.381497,103.955574"
+                    width="100%"
+                    height="450"
+                    style="border:0;"
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
         </section>
 
         <section id="weather" class="weather-section">
             <h2>Weather Forecast</h2>
             <div id="weather-widget"></div>
-        </section>
-
-        <section id="community" class="community-section">
+        </section>        <section id="community" class="community-section">
             <h2>Community Impact</h2>
             <div class="impact-stats">
-                <!-- Dynamic stats will be inserted here via JavaScript -->
+                <div class="stat-card">
+                    <span class="stat-number" id="beaches-cleaned">42</span>
+                    <h3>Beaches Cleaned</h3>
+                    <p>Since January 2025</p>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="volunteers">1,280</span>
+                    <h3>Active Volunteers</h3>
+                    <p>And growing every day</p>
+                </div>                <div class="stat-card">
+                    <span class="stat-number" id="trash-collected">4.2 tons</span>
+                    <h3>Trash Collected</h3>
+                    <p>Making our beaches cleaner</p>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="upcoming-events">8</span>
+                    <h3>Upcoming Events</h3>
+                    <p>Join us this month</p>
+                </div>
             </div>
         </section>
     </main>
