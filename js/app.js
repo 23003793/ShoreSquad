@@ -110,12 +110,172 @@ function joinCleanup(eventName) {
     alert(`Thanks for joining ${eventName}! We'll send you the details shortly.`);
 }
 
-// Weather Widget (Placeholder - Replace with actual weather API implementation)
-async function initializeWeather() {
-    const weatherElement = document.getElementById('weather-widget');
-    // TODO: Implement weather functionality using preferred weather API
-    console.log('Weather widget initialization placeholder');
+// Weather API Integration
+// API Endpoints
+const WEATHER_API_URL = 'https://api.data.gov.sg/v1/environment/2-hour-weather-forecast';
+const TEMPERATURE_API_URL = 'https://api.data.gov.sg/v1/environment/air-temperature';
+const RELATIVE_HUMIDITY_API_URL = 'https://api.data.gov.sg/v1/environment/relative-humidity';
+const WIND_SPEED_API_URL = 'https://api.data.gov.sg/v1/environment/wind-speed';
+const UV_INDEX_API_URL = 'https://api.data.gov.sg/v1/environment/uv-index';
+
+// Beach locations mapping
+const BEACH_LOCATIONS = {
+    'pasir-ris': { name: 'Pasir Ris', area: 'pasir ris', emoji: '🏖️' },
+    'sentosa': { name: 'Sentosa', area: 'sentosa', emoji: '🌴' },
+    'east-coast': { name: 'East Coast', area: 'marine parade', emoji: '🌅' }
+};
+
+async function fetchWeatherData() {
+    try {
+        const [weatherRes, tempRes, humidityRes, windRes] = await Promise.all([
+            fetch(WEATHER_API_URL),
+            fetch(TEMPERATURE_API_URL),
+            fetch(RELATIVE_HUMIDITY_API_URL),
+            fetch(WIND_SPEED_API_URL)
+        ]);
+
+        const weatherData = await weatherRes.json();
+        const tempData = await tempRes.json();
+        const humidityData = await humidityRes.json();
+        const windData = await windRes.json();
+
+        return {
+            forecast: weatherData.items[0],
+            temperature: tempData.items[0],
+            humidity: humidityData.items[0],
+            wind: windData.items[0]
+        };
+    } catch (error) {
+        console.error('Error fetching weather data:', error);
+        return null;
+    }
 }
+
+function getWeatherIcon(forecast) {
+    const weatherMap = {
+        'Partly Cloudy': '🌤️',
+        'Cloudy': '☁️',
+        'Light Rain': '🌦️',
+        'Moderate Rain': '🌧️',
+        'Heavy Rain': '⛈️',
+        'Clear': '☀️',
+        'Fair': '🌅',
+        'Showers': '🌦️',
+        'Thunder': '⛈️'
+    };
+    return weatherMap[forecast] || '🌤️';
+}
+
+function formatDate(date) {
+    return new Intl.DateTimeFormat('en-SG', {
+        weekday: 'short',
+        month: 'short',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric'
+    }).format(new Date(date));
+}
+
+async function fetchUVIndex() {
+    try {
+        const response = await fetch(UV_INDEX_API_URL);
+        const data = await response.json();
+        return data.items[0].index[0].value;
+    } catch (error) {
+        console.error('Error fetching UV index:', error);
+        return null;
+    }
+}
+
+function updateUVWarning(uvIndex) {
+    const warningElement = document.getElementById('uv-warning');
+    if (!uvIndex) return;
+
+    if (uvIndex >= 11) {
+        warningElement.className = 'uv-warning extreme';
+        warningElement.innerHTML = '🔥 Wah, UV index very high sia! Better wear sunscreen and hat!';
+    } else if (uvIndex >= 8) {
+        warningElement.className = 'uv-warning high';
+        warningElement.innerHTML = '😎 UV quite strong lah! Don\'t forget your sunscreen!';
+    } else {
+        warningElement.className = 'uv-warning';
+        warningElement.innerHTML = '👍 UV level okay lah!';
+    }
+}
+
+function setupLocationTabs() {
+    const tabs = document.querySelectorAll('.location-tab');
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            updateWeather(tab.dataset.location);
+        });
+    });
+}
+
+async function updateWeather(location = 'pasir-ris') {
+    const weatherGrid = document.getElementById('weather-grid');
+    const lastUpdated = document.getElementById('last-updated');
+    const locationInfo = BEACH_LOCATIONS[location];
+    
+    try {
+        const [weatherData, uvIndex] = await Promise.all([
+            fetchWeatherData(),
+            fetchUVIndex()
+        ]);
+
+        if (!weatherData) throw new Error('No weather data available');
+
+        const beachData = weatherData.forecast.forecasts.find(
+            f => f.area.toLowerCase().includes(locationInfo.area)
+        );
+
+        if (!beachData) throw new Error('Location data not available');
+
+        const nearestTemp = weatherData.temperature.readings[0].value;
+        const nearestHumidity = weatherData.humidity.readings[0].value;
+        const nearestWind = weatherData.wind.readings[0].value;
+
+        lastUpdated.textContent = formatDate(weatherData.forecast.timestamp);
+
+        const weatherCard = `
+            <div class="weather-card">
+                <div class="weather-date">Now ${locationInfo.emoji}</div>
+                <div class="weather-icon">${getWeatherIcon(beachData.forecast)}</div>
+                <div class="weather-temp">${nearestTemp.toFixed(1)}°C</div>
+                <div class="weather-desc">${beachData.forecast}</div>
+                <div class="weather-details">
+                    <span>Humidity: ${nearestHumidity.toFixed(0)}%</span>
+                    <span>Wind: ${nearestWind.toFixed(1)} km/h</span>
+                </div>
+            </div>
+        `;
+
+        weatherGrid.innerHTML = weatherCard;
+        updateUVWarning(uvIndex);
+
+    } catch (error) {
+        console.error('Error updating weather:', error);
+        weatherGrid.innerHTML = `
+            <div class="weather-error">
+                <p>Aiyo! Cannot load weather data. Try again later lah!</p>
+            </div>
+        `;
+    }
+}
+
+// Update weather every 30 minutes
+function startWeatherUpdates() {
+    updateWeather();
+    setInterval(updateWeather, 30 * 60 * 1000);
+}
+
+// Initialize weather updates when page loads
+document.addEventListener('DOMContentLoaded', () => {
+    startWeatherUpdates();
+    // ...existing initialization code...
+});
 
 // Set Statistics
 function setStatistics() {

@@ -17,11 +17,10 @@
                 <li><a href="#my-crew">My Crew</a></li>
             </ul>
         </nav>
-    </header>    <main>
-        <section class="hero">
-            <h1>Join the Wave of Change</h1>
-            <p>Rally your crew, track weather, and make our beaches cleaner – together!</p>
-            <button class="cta-button">Join a Cleanup</button>
+    </header>    <main>        <section class="hero">
+            <h1>Join the Wave of Change lah! 🌊</h1>
+            <p>Eh, come join us! Rally your squad, check weather, and clean beaches together sia! 🏖️</p>
+            <button class="cta-button">Join Our Squad! 🌿</button>
         </section>
 
         <section id="events" class="events-section">
@@ -66,38 +65,23 @@
                 </iframe>
             </div>
         </section>        <section id="weather" class="weather-section">
-            <h2>Weather Forecast</h2>
-            <div class="weather-grid">
-                <div class="weather-card">
-                    <div class="weather-date">June 5</div>
-                    <div class="weather-icon">🌤️</div>
-                    <div class="weather-temp">29°C</div>
-                    <div class="weather-desc">Partly Cloudy</div>
-                    <div class="weather-details">
-                        <span>Humidity: 75%</span>
-                        <span>Wind: 12 km/h</span>
-                    </div>
+            <h2>Beach Weather lah! 🌊</h2>
+            <div class="weather-header">
+                <div class="location-tabs">
+                    <button class="location-tab active" data-location="pasir-ris">Pasir Ris</button>
+                    <button class="location-tab" data-location="sentosa">Sentosa</button>
+                    <button class="location-tab" data-location="east-coast">East Coast</button>
                 </div>
-                <div class="weather-card">
-                    <div class="weather-date">June 8</div>
-                    <div class="weather-icon">☀️</div>
-                    <div class="weather-temp">31°C</div>
-                    <div class="weather-desc">Sunny</div>
-                    <div class="weather-details">
-                        <span>Humidity: 70%</span>
-                        <span>Wind: 8 km/h</span>
-                    </div>
+                <p class="weather-updated">Last Updated: <span id="last-updated"></span></p>
+            </div>
+            <div class="weather-grid" id="weather-grid">
+                <!-- Weather cards will be inserted here by JavaScript -->
+                <div class="weather-loading">
+                    Loading weather data sia... ⏳
                 </div>
-                <div class="weather-card">
-                    <div class="weather-date">June 15</div>
-                    <div class="weather-icon">⛅</div>
-                    <div class="weather-temp">28°C</div>
-                    <div class="weather-desc">Cloudy</div>
-                    <div class="weather-details">
-                        <span>Humidity: 80%</span>
-                        <span>Wind: 15 km/h</span>
-                    </div>
-                </div>
+            </div>
+            <div class="uv-warning" id="uv-warning">
+                <!-- UV index warning will be shown here -->
             </div>
         </section><section id="community" class="community-section">
             <h2>Community Impact</h2>
@@ -112,7 +96,7 @@
                     <h3>Active Volunteers</h3>
                     <p>And growing every day</p>
                 </div>                <div class="stat-card">
-                    <span class="stat-number" id="trash-collected">4.2 tons</span>
+                    <span class="stat-number" id="trash-collected">4.2 tonnes</span>
                     <h3>Trash Collected</h3>
                     <p>Making our beaches cleaner</p>
                 </div>
@@ -127,8 +111,19 @@
 
     <footer>
         <p>&copy; 2025 ShoreSquad. Making waves for cleaner beaches.</p>
-    </footer>
-
-    <script src="js/app.js"></script>
+    </footer>    <script src="js/app.js"></script>
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/YOUR_TAWK_TO_ID/default';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+    </script>
+    <!--End of Tawk.to Script-->
 </body>
 </html>

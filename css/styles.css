@@ -369,6 +369,98 @@ body::before {
     color: var(--primary);
 }
 
+/* Enhanced Weather Section Styles */
+.weather-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.weather-location {
+    font-size: 1.2rem;
+    color: var(--primary);
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.weather-updated {
+    font-size: 0.9rem;
+    color: var(--text);
+    opacity: 0.7;
+}
+
+.weather-loading,
+.weather-error {
+    text-align: center;
+    padding: 2rem;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.weather-error {
+    color: #e74c3c;
+}
+
+/* Weather card loading animation */
+.weather-loading::after {
+    content: '...';
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% { content: '.'; }
+    33% { content: '..'; }
+    66% { content: '...'; }
+}
+
+/* Location Tabs */
+.location-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.location-tab {
+    background: none;
+    border: 2px solid var(--primary);
+    color: var(--primary);
+    padding: 0.5rem 1.5rem;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.location-tab.active {
+    background: var(--primary);
+    color: white;
+}
+
+.location-tab:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 4px rgba(28, 163, 236, 0.2);
+}
+
+/* UV Warning */
+.uv-warning {
+    margin-top: 2rem;
+    padding: 1rem;
+    border-radius: 10px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.uv-warning.high {
+    background-color: rgba(255, 159, 67, 0.1);
+    color: #ff9f43;
+}
+
+.uv-warning.extreme {
+    background-color: rgba(231, 76, 60, 0.1);
+    color: #e74c3c;
+}
+
 /* Community Section */
 .community-section {
     padding: 4rem 2rem;
@@ -649,6 +741,25 @@ footer {
     .nav-links {
         background: rgba(255, 255, 255, 0.95);
         backdrop-filter: blur(10px);
+    }
+    
+    .location-tabs {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    
+    .location-tab {
+        font-size: 0.9rem;
+        padding: 0.4rem 1.2rem;
+    }
+    
+    .weather-card {
+        padding: 1.5rem;
+    }
+    
+    .weather-details {
+        flex-direction: column;
+        gap: 0.3rem;
     }
 }
 
